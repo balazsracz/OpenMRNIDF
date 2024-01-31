@@ -34,6 +34,9 @@
 #ifndef _FREERTOS_DRIVERS_ESP32_ESP32SOCINFO_HXX_
 #define _FREERTOS_DRIVERS_ESP32_ESP32SOCINFO_HXX_
 
+#include <stdint.h>
+
+#if defined(ESP_PLATFORM)
 
 #include "sdkconfig.h"
 
@@ -50,7 +53,6 @@
 #elif defined(CONFIG_IDF_TARGET_ESP32C2)
 #include <esp32c2/rom/rtc.h>
 #endif
-#include <stdint.h>
 
 namespace openmrn_arduino
 {
@@ -68,5 +70,7 @@ public:
 } // namespace openmrn_arduino
 
 using openmrn_arduino::Esp32SocInfo;
+
+#endif // ESP_PLATFORM
 
 #endif // _FREERTOS_DRIVERS_ESP32_ESP32SOCINFO_HXX_
