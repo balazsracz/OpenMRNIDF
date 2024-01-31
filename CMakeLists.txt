@@ -23,7 +23,8 @@ set(IDF_DEPS
     espcoredump
     hal
     heap
-    vfs)
+    vfs
+    mdns)
 
 idf_component_register(SRC_DIRS "${SOURCE_DIRS}"
                        INCLUDE_DIRS "src"
