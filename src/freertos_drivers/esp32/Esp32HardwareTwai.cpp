@@ -233,7 +233,7 @@ static inline void twai_purge_rx_queue()
     Notifiable* n = nullptr;
     {
         AtomicHolder h(&twai.buf_lock);
-        LOG(VERBOSE, "ESP-TWAI: puring RX-Q:%zu", twai.rx_buf->pending());
+        LOG(VERBOSE, "ESP-TWAI: purging RX-Q: %zu", twai.rx_buf->pending());
         twai.stats.rx_missed += twai.rx_buf->pending();
         twai.rx_buf->flush();
         std::swap(n, twai.readable_notify);
@@ -259,7 +259,7 @@ static inline void twai_purge_tx_queue()
     Notifiable* n = nullptr;
     {
         AtomicHolder h(&twai.buf_lock);
-        LOG(VERBOSE, "ESP-TWAI: puring TX-Q:%zu", twai.tx_buf->pending());
+        LOG(VERBOSE, "ESP-TWAI: purging TX-Q: %zu", twai.tx_buf->pending());
         twai.stats.tx_failed += twai.tx_buf->pending();
         twai.tx_buf->flush();
         std::swap(n, twai.writable_notify);
@@ -793,9 +793,9 @@ static void twai_isr(void *arg)
     // Arbitration error detected
     if (events & TWAI_HAL_EVENT_ARB_LOST)
     {
-        twai.stats.arb_error++;
+        twai.stats.arb_loss++;
         ESP_EARLY_LOGV(TWAI_LOG_TAG, "arb-lost:%" PRIu32,
-                       twai.stats.arb_error);
+                       twai.stats.arb_loss);
     }
 
     if (wakeup == pdTRUE)
@@ -886,7 +886,7 @@ void* twai_watchdog(void* param)
                 twai.stats.rx_missed, twai.stats.rx_lost,
                 twai.stats.tx_processed, twai.tx_buf->pending(),
                 twai.stats.tx_success, twai.stats.tx_failed,
-                twai.stats.arb_error, twai.stats.bus_error,
+                twai.stats.arb_loss, twai.stats.bus_error,
                 is_twai_running() ? "Running" :
                 is_twai_recovering() ? "Recovering" :
                 is_twai_err_warn() ? "Err-Warn" :
