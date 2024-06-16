@@ -24,7 +24,8 @@ set(IDF_DEPS
     hal
     heap
     vfs
-    mdns)
+    mdns
+    bt)
 
 idf_component_register(SRC_DIRS "${SOURCE_DIRS}"
                        INCLUDE_DIRS "src"
